@@ -1,11 +1,11 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
-
-import { LOGIN_MUTATION } from "../utils/queries";
 import { Formik } from "formik";
 
+import { LOGIN_MUTATION } from "../utils/queries";
+
 export default function LoginForm() {
-  const [login, { loading, error, data }] = useMutation(LOGIN_MUTATION);
+  const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
 
   React.useEffect(() => {
     console.log(
@@ -32,21 +32,27 @@ export default function LoginForm() {
     <Formik initialValues={{ email: "", password: "" }} onSubmit={handleSubmit}>
       {(props) => (
         <>
+          Login
           {error && <p>{JSON.stringify(error)}</p>}
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <p>Not Loading any more {JSON.stringify(data)} </p>
+            <>
+              {/* <p>Not Loading any more {JSON.stringify(data)} </p> */}
+              <input
+                placeholder="email"
+                onChange={props.handleChange("email")}
+              />
+              <input
+                placeholder="password"
+                type="password"
+                onChange={props.handleChange("password")}
+              />
+              <button type="submit" onClick={props.handleSubmit}>
+                Login
+              </button>
+            </>
           )}
-          <input placeholder="email" onChange={props.handleChange("email")} />
-          <input
-            placeholder="password"
-            type="password"
-            onChange={props.handleChange("password")}
-          />
-          <button type="submit" onClick={props.handleSubmit}>
-            Login
-          </button>
         </>
       )}
     </Formik>
